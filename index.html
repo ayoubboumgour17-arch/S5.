@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collecte d'informations | ESEF</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 30px 16px;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #eaf0fa, #f8faff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  background: #fff;
+  width: 100%;
+  max-width: 490px;
+  padding: 32px 26px;
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(20, 45, 85, .10);
+  text-align: center;
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  max-width: 390px;
+  height: auto;
+  margin: 0 auto 25px;
+}
+
+h1 {
+  color: #173c78;
+  font-size: 25px;
+  line-height: 1.4;
+  margin: 10px 0;
+}
+
+.welcome {
+  color: #626d7c;
+  font-size: 15px;
+  line-height: 1.8;
+  margin: 12px 0 22px;
+}
+
+.line {
+  height: 3px;
+  width: 55px;
+  background: #d3aa50;
+  border-radius: 5px;
+  margin: 0 auto 25px;
+}
+
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  color: #263b5a;
+  font-weight: bold;
+  margin: 19px 0 9px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #d8dfeb;
+  border-radius: 9px;
+  font-size: 16px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #244f8d;
+  box-shadow: 0 0 0 3px #244f8d15;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 26px;
+  border: none;
+  border-radius: 9px;
+  background: #173c78;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .6;
+}
+
+#success {
+  display: none;
+  background: #edf8f0;
+  color: #176536;
+  border-radius: 12px;
+  padding: 22px 15px;
+  margin-top: 20px;
+  line-height: 1.8;
+}
+
+#status {
+  color: #a33;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.footer {
+  border-top: 1px solid #eee;
+  margin-top: 28px;
+  padding-top: 18px;
+  color: #7a8492;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.footer strong {
+  color: #173c78;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <img src="./logo.png"
+       class="logo"
+       alt="Logo de l'établissement"
+       onerror="this.style.display='none'">
+
+  <h1>Collecte d'informations des étudiants</h1>
+
+  <p class="welcome">
+    Chers étudiants,<br>
+    Dans le cadre de la mise à jour de nos informations,
+    nous vous invitons à renseigner les informations
+    demandées ci-dessous.<br>
+    Merci pour votre collaboration.
+  </p>
+
+  <div class="line"></div>
+
+  <form id="infoForm"
+    action="https://script.google.com/macros/s/AKfycbwdO4_B_uuLRwVYAkoNtgM3U1BdpEOTTxLgaBpK6wM1E0pcWoypWgw9uSpQXV-oonyc6Q/exec"
+    method="POST"
+    target="submitFrame">
+
+    <label for="name">Nom et prénom</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Entrez votre nom et prénom"
+      required>
+
+    <label for="phone">Numéro de téléphone</label>
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      inputmode="tel"
+      placeholder="Entrez votre numéro de téléphone"
+      required>
+
+    <button type="submit" id="sendButton">
+      Envoyer les informations
+    </button>
+
+  </form>
+
+  <iframe
+    name="submitFrame"
+    id="submitFrame"
+    style="display:none">
+  </iframe>
+
+  <div id="success">
+    <h2>Merci !</h2>
+    Vos informations ont été envoyées.<br>
+    Nous vous remercions pour votre collaboration.
+  </div>
+
+  <div id="status" role="status"></div>
+
+  <div class="footer">
+    Pour toute information complémentaire,<br>
+    veuillez contacter <strong>Amina</strong>.<br>
+    Merci de votre confiance.
+  </div>
+
+</div>
+
+<script>
+const form = document.getElementById("infoForm");
+const frame = document.getElementById("submitFrame");
+const button = document.getElementById("sendButton");
+const success = document.getElementById("success");
+const status = document.getElementById("status");
+
+let waiting = false;
+
+form.addEventListener("submit", function() {
+  waiting = true;
+  button.disabled = true;
+  status.textContent = "Envoi en cours...";
+});
+
+frame.addEventListener("load", function() {
+  if (!waiting) return;
+
+  waiting = false;
+  form.style.display = "none";
+  status.textContent = "";
+  success.style.display = "block";
+});
+</script>
+
+</body>
+</html>
